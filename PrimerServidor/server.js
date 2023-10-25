@@ -1,9 +1,11 @@
-const http = require('http');
+const express = require('express');
 
-function responderPeticion(request, response) {//Esta funcion se ejecuta cada vez que se hace una peticion
-    response.end("Hola Mundo")
-}
+const app = express()
 
-const server = http.createServer(responderPeticion)
+app.get("/saludo", function(req, res) {
+    res.send(`Hola ${req.query.name}!`)
+})
 
-server.listen(3000)
+
+
+app.listen(3000)
