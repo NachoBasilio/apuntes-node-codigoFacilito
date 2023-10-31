@@ -5,6 +5,39 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  const users = [
+    {
+      id: 1,
+      name: "user 1",
+      surname: "surname 1",
+      age: 20
+    },
+    {
+      id: 2,
+      name: "user 2",
+      surname: "surname 2",
+      age: 20
+    },
+    {
+      id: 3,
+      name: "user 3",
+      surname: "surname 3",
+      age: 20
+    },
+    {
+      id: 4,
+      name: "user 4",
+      surname: "surname 4",
+      age: 20
+    },
+    {
+      id: 5,
+      name: "user 5",
+      surname: "surname 5",
+      age: 20
+    }
+  ]
+
   @Get('/test')
   getHello(): string {
     return this.appService.getHello();
@@ -30,117 +63,21 @@ export class AppController {
 
   @Get("/api/user")
   getUsers(): any {
-    const users = [
-      {
-        id: 1,
-        name: "user 1",
-        surname: "surname 1",
-        age: 20
-      },
-      {
-        id: 2,
-        name: "user 2",
-        surname: "surname 2",
-        age: 20
-      },
-      {
-        id: 3,
-        name: "user 3",
-        surname: "surname 3",
-        age: 20
-      },
-      {
-        id: 4,
-        name: "user 4",
-        surname: "surname 4",
-        age: 20
-      },
-      {
-        id: 5,
-        name: "user 5",
-        surname: "surname 5",
-        age: 20
-      }
-    ]
-
-    return users
+    return this.users
   }
 
   @Get("/api/user/qty")
   getUserQty(): any {
-    const users = [
-      {
-        id: 1,
-        name: "user 1",
-        surname: "surname 1",
-        age: 20
-      },
-      {
-        id: 2,
-        name: "user 2",
-        surname: "surname 2",
-        age: 20
-      },
-      {
-        id: 3,
-        name: "user 3",
-        surname: "surname 3",
-        age: 20
-      },
-      {
-        id: 4,
-        name: "user 4",
-        surname: "surname 4",
-        age: 20
-      },
-      {
-        id: 5,
-        name: "user 5",
-        surname: "surname 5",
-        age: 20
-      }
-    ]
 
-    return users.length
+    return this.users.length
   }
 
   @Get("/api/user/:id")
   getUser(@Param() params){
     const id = params.id
-    const users = [
-      {
-        id: 1,
-        name: "user 1",
-        surname: "surname 1",
-        age: 20
-      },
-      {
-        id: 2,
-        name: "user 2",
-        surname: "surname 2",
-        age: 20
-      },
-      {
-        id: 3,
-        name: "user 3",
-        surname: "surname 3",
-        age: 20
-      },
-      {
-        id: 4,
-        name: "user 4",
-        surname: "surname 4",
-        age: 20
-      },
-      {
-        id: 5,
-        name: "user 5",
-        surname: "surname 5",
-        age: 20
-      }
-    ]
 
-    const user = users.find(user => user.id == id)
+
+    const user = this.users.find(user => user.id == id)
     return user
   }
 
