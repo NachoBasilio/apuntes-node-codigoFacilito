@@ -1,11 +1,11 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  const users = [
+  users = [
     {
       id: 1,
       name: "user 1",
@@ -76,9 +76,19 @@ export class AppController {
   getUser(@Param() params){
     const id = params.id
 
-
     const user = this.users.find(user => user.id == id)
     return user
   }
+
+  @Post("/api/test")
+  addUser(@Body() userData: any){
+    console.log(userData)
+    const user = {
+      id: this.users.length + 1,
+      ...userData
+    }
+    this.users.push(user)
+    return this.users
+  }  
 
 }
