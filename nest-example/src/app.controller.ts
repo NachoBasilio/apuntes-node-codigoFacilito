@@ -82,7 +82,9 @@ export class AppController {
 
   @Post("/api/test")
   addUser(@Body() userData: any){
-    console.log(userData)
+    if(!userData.name || !userData.surname || !userData.age){
+      throw new Error("Faltan datos")
+    }
     const user = {
       id: this.users.length + 1,
       ...userData
