@@ -1,30 +1,40 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { PostsService } from './posts.service';
 
 @Controller('posts')
 export class PostsController {
+  constructor(private readonly postService: PostsService) {}
+
   @Get()
   getPosts() {
-    return 'Hola gente';
+    return this.postService.getPosts();
   }
 
   @Get(':id')
-  getPost(@Param('id') id: string): string {
-    return `Tu post id es ${id}`;
+  getPost(@Param('id') id: string) {
+    return this.postService.getPost(id);
   }
 
   @Post()
-  @HttpCode(HttpStatus.NO_CONTENT)
-  createPost(@Body('message') message: string): string {
-    return `Tu post es: ${message}`;
+  createPost(@Body('message') message: string) {
+    return this.postService.createPost(message);
   }
 
   @Patch(':id')
-  updatePost(@Param('id') id: string, @Body() post): string {
-    return `El post ${id} fue actualizado: ${post.message}`;
+  updatePost(@Param('id') id: string, @Body('message') message: string) {
+    return this.postService.updatePost(id, message);
   }
 
   @Delete(':id')
-  deletePost(@Param('id') id: string): string {
-    return `El post ${id} fue eliminado`;
+  deletePost(@Param('id') id: string): void {
+    return this.postService.deletePost(id);
   }
 }
