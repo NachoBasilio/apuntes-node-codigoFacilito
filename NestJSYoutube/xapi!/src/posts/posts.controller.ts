@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 
 @Controller('posts')
 export class PostsController {
@@ -16,5 +16,15 @@ export class PostsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   createPost(@Body('message') message: string): string {
     return `Tu post es: ${message}`;
+  }
+
+  @Patch(':id')
+  updatePost(@Param('id') id: string, @Body() post): string {
+    return `El post ${id} fue actualizado: ${post.message}`;
+  }
+
+  @Delete(':id')
+  deletePost(@Param('id') id: string): string {
+    return `El post ${id} fue eliminado`;
   }
 }
