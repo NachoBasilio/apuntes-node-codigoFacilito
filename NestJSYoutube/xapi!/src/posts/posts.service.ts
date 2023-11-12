@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Post } from './post.entity';
 
 @Injectable()
@@ -15,7 +15,12 @@ export class PostsService {
   }
 
   getPost(id: string): Post {
-    return this.posts.find((item) => item.id === id);
+    const post = this.posts.find((item) => item.id === id);
+    if (!post) {
+      throw new NotFoundException('Recurso no encontrado');
+    }
+
+    return post;
   }
 
   createPost(message: string): void {
