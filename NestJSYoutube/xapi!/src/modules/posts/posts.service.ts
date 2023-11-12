@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Post } from './post.entity';
+import { CreatePostDto, UpdatePostDto } from './dto';
 
 @Injectable()
 export class PostsService {
@@ -23,14 +24,14 @@ export class PostsService {
     return post;
   }
 
-  createPost(message: string): void {
+  createPost({ message }: CreatePostDto): void {
     this.posts.push({
       id: (Math.floor(Math.random() * 2000) + 1).toString(),
       message,
     });
   }
 
-  updatePost(id: string, message: string): void {
+  updatePost(id: string, { message }: UpdatePostDto): void {
     const post: Post = this.getPost(id);
     if (post) {
       post.message = message;
