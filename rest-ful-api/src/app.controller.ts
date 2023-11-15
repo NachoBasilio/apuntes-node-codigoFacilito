@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -24,5 +18,10 @@ export class AppController {
   @Get('api/users/:id')
   getUserById(@Param('id') id) {
     return this.appService.getUsersById(id);
+  }
+
+  @Post("/api/test")
+  createUsers(@Body() userData: any): any {
+    return userData;
   }
 }
