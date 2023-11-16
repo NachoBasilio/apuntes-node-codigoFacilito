@@ -20,8 +20,17 @@ export class AppController {
     return this.appService.getUsersById(id);
   }
 
-  @Post("/api/test")
+  @Post('/api/users')
   createUsers(@Body() userData: any): any {
-    return userData;
+    const { nombre, apellido, direccion, estado_civil, pokemon_favorito } =
+      userData;
+
+    return this.appService.addUser(
+      nombre,
+      apellido,
+      direccion,
+      estado_civil,
+      pokemon_favorito,
+    );
   }
 }

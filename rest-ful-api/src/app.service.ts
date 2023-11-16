@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 @Injectable()
 export class AppService {
@@ -56,10 +60,31 @@ export class AppService {
   getUsersById(id) {
     const usuario = this.usuarios.find((user) => user.id == id);
 
+    if (!id) {
+      throw new BadRequestException('No hay ID');
+    }
+
     if (usuario) {
       return usuario;
     } else {
-      return 'Todo mal';
+      throw new NotFoundException('Ese valor no ta');
     }
+  }
+
+  addUser(nombre, apellido, direccion, estado_civil, pokemon_favorito) {
+    const ultimoID = this.usuarios[this.usuarios.length - 1].id + 1;
+
+    const nuevoUsuario = {
+      id: ultimoID,
+      nombre,
+      apellido,
+      direccion,
+      estado_civil,
+      pokemon_favorito,
+    };
+
+    this.usuarios.push(nuevoUsuario);
+
+    return this.usuarios;
   }
 }
