@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { firstValueFrom } from 'rxjs';
 
 @Controller()
 export class AppController {
@@ -20,7 +21,7 @@ export class AppController {
     return this.appService.getUsersById(id);
   }
 
-  @Post('/api/users')
+  @Post('api/users')
   createUsers(@Body() userData: any): any {
     const { nombre, apellido, direccion, estado_civil, pokemon_favorito } =
       userData;
@@ -32,5 +33,13 @@ export class AppController {
       estado_civil,
       pokemon_favorito,
     );
+  }
+
+  @Get('api/pokemon/:name')
+  async getPokemon(@Param('name') pokemon): Promise<any> {
+    const { data } = await firstValueFrom(
+      await this.appService.getPokemonByName(pokemon),
+    );
+    return data;
   }
 }

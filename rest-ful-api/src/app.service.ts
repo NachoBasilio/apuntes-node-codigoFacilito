@@ -1,3 +1,4 @@
+import { HttpService } from '@nestjs/axios';
 import {
   BadRequestException,
   Injectable,
@@ -6,6 +7,7 @@ import {
 
 @Injectable()
 export class AppService {
+  constructor(private readonly httpService: HttpService) {}
   usuarios = [
     {
       id: 1,
@@ -71,8 +73,22 @@ export class AppService {
     }
   }
 
+  getPokemonByName(name) {
+    return this.httpService.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  }
+
   addUser(nombre, apellido, direccion, estado_civil, pokemon_favorito) {
     const ultimoID = this.usuarios[this.usuarios.length - 1].id + 1;
+
+    if (
+      !nombre ||
+      !apellido ||
+      !direccion ||
+      !estado_civil ||
+      !pokemon_favorito
+    ) {
+      throw new BadRequestException('Faltan datos');
+    }
 
     const nuevoUsuario = {
       id: ultimoID,
