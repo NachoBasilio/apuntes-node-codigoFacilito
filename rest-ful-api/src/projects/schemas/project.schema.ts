@@ -16,7 +16,7 @@ export class Project {
   urlIMG: string;
 
   @Prop({ type: [String], required: true })
-  Technology: string[];
+  technology: string[];
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);
