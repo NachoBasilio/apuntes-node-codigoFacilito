@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  //El unico objetivo de esta ruta es que se cree un token.
   @UseGuards(LocalAuthGuard)
   @Post('login')
   login(@Request() req) {

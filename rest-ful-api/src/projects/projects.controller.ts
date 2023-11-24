@@ -6,17 +6,20 @@ import {
   Delete,
   Body,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project';
 import { UdateProjectDto } from './dto/update-project';
 import { Project } from './interfaces/project';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(): Promise<Project[]> {
     return this.projectsService.findAll();
