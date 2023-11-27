@@ -1,13 +1,24 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  Param,
+  Post,
+  UseFilters,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { firstValueFrom } from 'rxjs';
+import { HttpExceptionFilter } from './exception-filter';
 
 @Controller()
+@UseFilters(new HttpExceptionFilter())
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('api/users')
   getUsers() {
+    throw new HttpException('Error', 400);
     return this.appService.getUsers();
   }
 

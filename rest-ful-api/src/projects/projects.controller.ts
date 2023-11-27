@@ -7,6 +7,8 @@ import {
   Body,
   Put,
   UseGuards,
+  UseFilters,
+  HttpException,
 } from '@nestjs/common';
 
 import { ProjectsService } from './projects.service';
@@ -14,8 +16,10 @@ import { CreateProjectDto } from './dto/create-project';
 import { UdateProjectDto } from './dto/update-project';
 import { Project } from './interfaces/project';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { HttpExceptionFilter } from 'src/exception-filter';
 
 @Controller('projects')
+@UseFilters(new HttpExceptionFilter())
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
@@ -32,6 +36,9 @@ export class ProjectsController {
 
   @Post()
   create(@Body() createProductDto: CreateProjectDto): Promise<Project> {
+    if (!createProductDto) {
+      throw new HttpException('No estan los datos necesario', 2000);
+    }
     return this.projectsService.create(createProductDto);
   }
 
