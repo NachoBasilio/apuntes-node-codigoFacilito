@@ -1,10 +1,10 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { ChatService } from './chat.service';
-import { Server } from 'http';
+import { Server } from 'socket.io';
 import { OnModuleInit } from '@nestjs/common';
-import { Socket } from 'dgram';
+import { Socket } from 'socket.io';
 
-@WebSocketGateway()
+@WebSocketGateway() //Aqui se puede cambiar el puerto
 export class ChatGateway implements OnModuleInit {
   @WebSocketServer()
   server: Server;
