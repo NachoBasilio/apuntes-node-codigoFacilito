@@ -1,4 +1,10 @@
-import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import {
+  ConnectedSocket,
+  MessageBody,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
 import { ChatService } from './chat.service';
 import { Server } from 'socket.io';
 import { OnModuleInit } from '@nestjs/common';
@@ -16,7 +22,7 @@ export class ChatGateway implements OnModuleInit {
       //onsole.log('Cliente conectado', socket.id);
       //Aqui decidimos que hace el cliente mientras esta conectado y que pasa cuando se desconecta.
 
-      const { token, name } = socket.handshake.auth;
+      const { name } = socket.handshake.auth;
 
       if (!name) {
         socket.disconnect();
@@ -33,6 +39,23 @@ export class ChatGateway implements OnModuleInit {
         this.chatService.onClientDisconnected(socket.id);
         this.server.emit('on-clients-changed', this.chatService.getClients());
       });
+    });
+  }
+
+  @SubscribeMessage('send-message')
+  handleMessage(
+    @MessageBody() message: string,
+    @ConnectedSocket() cliente: Socket,
+  ) {
+    const { name } = cliente.handshake.auth;
+    if (!name || !message) {
+      return;
+    }
+
+    this.server.emit('on-message', {
+      userId: cliente.id,
+      message: message,
+      name: name,
     });
   }
 }
